@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">wheater</string>
+    <string name="hola_mundo">Hello World!</string>
+    <string name="content_description_offline">imagen de piedra offline</string>
+</resources>
