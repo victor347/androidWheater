@@ -2,4 +2,7 @@
     <string name="app_name">wheater</string>
     <string name="hola_mundo">Hello World!</string>
     <string name="content_description_offline">imagen de piedra offline</string>
+    <string name="cambiar_sistema">Cambiar Sistema</string>
+    <string name="sistema_americano">Sistema americano</string>
+    <string name="sistema_espa_ol">Sistema español</string>
 </resources>
