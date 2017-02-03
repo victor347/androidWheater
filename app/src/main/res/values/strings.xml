@@ -5,4 +5,10 @@
     <string name="cambiar_sistema">Cambiar Sistema</string>
     <string name="sistema_americano">Sistema americano</string>
     <string name="sistema_espa_ol">Sistema español</string>
+    <string name="unidades_farenheit">Unidades Fahrenheit</string>
+    <string name="unidades_celcius">Unidades Celsius</string>
+    <string name="tempMaxFormat">Temp. Máxima: %.1f °C</string>
+    <string name="tempMinFormat">Temp. Mínima: %.1f °C</string>
+    <string name="humidityFormat">Humedad: %.0f %%</string>
+    <string name="selecciona_las_unidades">Selecciona las unidades:</string>
 </resources>
