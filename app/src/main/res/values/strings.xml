@@ -12,4 +12,5 @@
     <string name="humidityFormat">Humedad: %.0f %%</string>
     <string name="selecciona_las_unidades">Selecciona las unidades:</string>
     <string name="settings">Ajustes</string>
+    <string name="actualizado">Preferencias Actualizadas</string>
 </resources>

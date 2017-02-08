@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -20,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         mRadioGroup = (RadioGroup) findViewById(R.id.rGUnits);
 
-        ((RadioButton)findViewById(getIntent().getIntExtra(EXTRA_UNITS, R.id.rBCelcius))).setChecked(true);
+        mRadioGroup.check(getIntent().getIntExtra(EXTRA_UNITS, R.id.rBCelcius));
 
         findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
             @Override
