@@ -28,4 +28,9 @@ public class Cities {
 
         return mCities.size();
     }
+
+    public City getCity(int position){
+
+        return mCities.get(position);
+    }
 }

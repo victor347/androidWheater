@@ -1,58 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_settings"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.vicsoft.wheater.wheater.activity.SettingsActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_settings"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.vicsoft.wheater.wheater.activity.SettingsActivity">
 
-    <TextView
-        android:text="@string/selecciona_las_unidades"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <RadioGroup
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rGUnits">
-
-        <RadioButton
-            android:text="@string/unidades_farenheit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rBFarenheit"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:text="@string/unidades_celcius"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rBCelcius"
-            android:layout_weight="1" />
-    </RadioGroup>
+    <include layout="@layout/toolbar_main"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="right|bottom">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-        <Button
-            android:text="@android:string/cancel"
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/selecciona_las_unidades"/>
 
-        <Button
-            android:id="@+id/btnOk"
-            android:text="@android:string/ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <RadioGroup
+
+            android:id="@+id/rGUnits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rBFarenheit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unidades_farenheit"/>
+
+            <RadioButton
+                android:id="@+id/rBCelcius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unidades_celcius"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/cancel"/>
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

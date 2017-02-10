@@ -18,9 +18,9 @@ public class CityPagerAdapter extends FragmentPagerAdapter {
 
     private Cities mCities;
 
-    public CityPagerAdapter(FragmentManager fm) {
+    public CityPagerAdapter(FragmentManager fm, Cities cities) {
         super(fm);
-        mCities = new Cities();
+        mCities = cities;
     }
 
     @Override
@@ -34,5 +34,12 @@ public class CityPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
 
         return mCities.getCount();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        super.getPageTitle(position);
+
+        return mCities.getCities().get(position).getName();
     }
 }

@@ -16,4 +16,7 @@
     <string name="Madrid">Madrid</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="wheater">Wheater</string>
+    <string name="anterior">Anterior</string>
+    <string name="next">Siguiente</string>
 </resources>
