@@ -1,4 +1,6 @@
-package com.vicsoft.wheater.wheater;
+package com.vicsoft.wheater.wheater.model;
+
+import java.io.Serializable;
 
 /**
  * Created by victor on 2/02/2017.
@@ -6,7 +8,7 @@ package com.vicsoft.wheater.wheater;
  * taratarataratara
  */
 
-public class Forecast {
+public class Forecast implements Serializable{
 
     private float mMaxTemp;
     private float mMinTemp;

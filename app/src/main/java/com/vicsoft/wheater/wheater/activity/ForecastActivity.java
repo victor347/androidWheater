@@ -1,7 +1,9 @@
-package com.vicsoft.wheater.wheater;
+package com.vicsoft.wheater.wheater.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.vicsoft.wheater.wheater.R;
 
 public class ForecastActivity extends AppCompatActivity {
 

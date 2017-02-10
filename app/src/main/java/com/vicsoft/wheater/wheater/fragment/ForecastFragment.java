@@ -1,4 +1,4 @@
-package com.vicsoft.wheater.wheater;
+package com.vicsoft.wheater.wheater.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,6 +18,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vicsoft.wheater.wheater.R;
+import com.vicsoft.wheater.wheater.activity.SettingsActivity;
+import com.vicsoft.wheater.wheater.model.City;
+import com.vicsoft.wheater.wheater.model.Forecast;
+
 /**
  * Created by victor on 8/02/2017.
  * --
@@ -28,20 +33,38 @@ public class ForecastFragment extends Fragment {
     public static final String TAG = ForecastFragment.class.getCanonicalName();
     private static final int REQUEST_UNITS = 235;
     public static final String PREFERENCE_SHOW_CELSIUS = "showCelsius";
+    private static final String ARG_CITY = "city";
 
+    private TextView mCityName;
     private TextView mMaxTemp;
     private TextView mMinTemp;
     private TextView mHumidity;
     private TextView mDescription;
     private ImageView mForecastImage;
     private boolean mShowCelsius;
-    private Forecast mForecast;
+
+    private City mCity;
+
+    public static ForecastFragment newInstace (City city){
+
+        ForecastFragment fragment = new ForecastFragment();
+
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_CITY, city);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        if(getArguments() != null){
+
+            mCity = (City) getArguments().getSerializable(ARG_CITY);
+        }
     }
 
     @Nullable
@@ -55,16 +78,16 @@ public class ForecastFragment extends Fragment {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mShowCelsius = pref.getBoolean(PREFERENCE_SHOW_CELSIUS, true);
 
-        Forecast forecast = new Forecast(30.2f, 15.6f, 25, "Cielo despejado", R.drawable.ico_02);
 
+        mCityName = (TextView) root.findViewById(R.id.city);
         mMaxTemp = (TextView) root.findViewById(R.id.tempMax);
         mMinTemp = (TextView) root.findViewById(R.id.tempMin);
         mHumidity = (TextView) root.findViewById(R.id.humedity);
         mDescription = (TextView) root.findViewById(R.id.description);
         mForecastImage = (ImageView) root.findViewById(R.id.imageForecast);
 
-        setForecast(forecast);
-
+        setForecast(mCity.getForecast());
+        mCityName.setText(mCity.getName());
         return root;
     }
 
@@ -87,7 +110,7 @@ public class ForecastFragment extends Fragment {
         mDescription.setText(String.valueOf(forecast.getDescription()));
         mForecastImage.setImageResource(forecast.getIcon());
 
-        mForecast = forecast;
+        mCity.setForecast(forecast);;
     }
 
     private float toFahrenheit(float temp) {
@@ -145,7 +168,7 @@ public class ForecastFragment extends Fragment {
                     mShowCelsius = true;
                 }
 
-                setForecast(mForecast);
+                setForecast(mCity.getForecast());
 
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(PREFERENCE_SHOW_CELSIUS, mShowCelsius).apply();
 
@@ -159,7 +182,7 @@ public class ForecastFragment extends Fragment {
                                 public void onClick(View v) {
                                     mShowCelsius = oldShowCelcius;
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(PREFERENCE_SHOW_CELSIUS, mShowCelsius).apply();
-                                    setForecast(mForecast);
+                                    setForecast(mCity.getForecast());
                                 }
                             }).show();
                 }

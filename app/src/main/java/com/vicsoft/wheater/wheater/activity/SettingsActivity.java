@@ -1,10 +1,12 @@
-package com.vicsoft.wheater.wheater;
+package com.vicsoft.wheater.wheater.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
+
+import com.vicsoft.wheater.wheater.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
