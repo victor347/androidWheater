@@ -1,70 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/activity_main"
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/view_switcher"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:indeterminate="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.vicsoft.wheater.wheater.activity.ForecastActivity">
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        <LinearLayout
+            android:id="@+id/wheaterLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/city"
+            android:layout_toRightOf="@+id/imageForecast"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tempMax"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.vicsoft.wheater.wheater.activity.ForecastActivity">
+                android:layout_height="wrap_content"
+                />
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/Madrid"/>
+            <TextView
+                android:id="@+id/tempMin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-    <LinearLayout
-        android:id="@+id/wheaterLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/city"
-        android:layout_toRightOf="@+id/imageForecast"
-        android:orientation="vertical">
+            <TextView
+                android:id="@+id/humedity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageForecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/city"
+            />
 
         <TextView
-            android:id="@+id/tempMax"
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/imageForecast"
+            />
 
-        <TextView
-            android:id="@+id/tempMin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"/>
-
-        <TextView
-            android:id="@+id/humedity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"/>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageForecast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/city"
-        app:srcCompat="@drawable/ico_02"/>
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/imageForecast"
-        android:text="TextView"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ViewSwitcher>

@@ -19,4 +19,6 @@
     <string name="wheater">Wheater</string>
     <string name="anterior">Anterior</string>
     <string name="next">Siguiente</string>
+    <string name="error">Error</string>
+    <string name="error_descargando_info">Información del clima no disponible</string>
 </resources>

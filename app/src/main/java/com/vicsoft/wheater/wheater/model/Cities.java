@@ -15,9 +15,13 @@ public class Cities {
     public Cities(){
 
         mCities = new LinkedList<>();
-        mCities.add(new City("Madrid", new Forecast(10, 20, 30, "Tormenta Electrica", R.drawable.ico_11)));
-        mCities.add(new City("Bogotá", new Forecast(25, 32, 18, "Muy soleado", R.drawable.ico_01)));
-        mCities.add(new City("San Francisco", new Forecast(35, 12, 51, "Tornado", R.drawable.ico_50)));
+        mCities.add(new City("Madrid"));
+        mCities.add(new City("Barcelona"));
+        mCities.add(new City("Bogota"));
+        mCities.add(new City("Medellin"));
+        mCities.add(new City("San Francisco"));
+        mCities.add(new City("New York"));
+
     }
 
     public LinkedList<City> getCities() {

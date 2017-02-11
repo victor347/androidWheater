@@ -6,6 +6,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ public class CityListFragment extends Fragment {
     private String mParam2;
 
     private OnCitySelectedListener mOnCitySelectedListener;
-
 
     public CityListFragment() {
         // Required empty public constructor
@@ -83,6 +84,17 @@ public class CityListFragment extends Fragment {
 
                 if(mOnCitySelectedListener!=null)
                 mOnCitySelectedListener.onCitySelected(cities.getCity(position), position);
+            }
+        });
+
+        FloatingActionButton addButton = (FloatingActionButton) root.findViewById(R.id.float_button);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Snackbar.make(getView(), "FAB pulsado...", Snackbar.LENGTH_LONG).show();
+
             }
         });
 
