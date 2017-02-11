@@ -26,18 +26,34 @@ import com.vicsoft.wheater.wheater.model.Cities;
  */
 public class CityPagerFragment extends Fragment {
 
+    private static final String ARG_CITY_INDEX = "ARG_CITY_INDEX";
     private Cities mCities;
-
     private ViewPager mPager;
+    private int mCityIndex;
 
     public CityPagerFragment() {
         // Required empty public constructor
         mCities = new Cities();
     }
 
+    public static CityPagerFragment newinstance(int cityIndex){
+
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARG_CITY_INDEX, cityIndex);
+
+        CityPagerFragment cityPagerFragment = new CityPagerFragment();
+        cityPagerFragment.setArguments(arguments);
+
+        return cityPagerFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(getArguments()!=null){
+            mCityIndex = getArguments().getInt(ARG_CITY_INDEX, 0);
+        }
 
         setHasOptionsMenu(true);
     }
@@ -69,7 +85,8 @@ public class CityPagerFragment extends Fragment {
         });
 
         mPager.setAdapter(new CityPagerAdapter(getFragmentManager(), mCities));
-        updateCityinfo(0);
+        mPager.setCurrentItem(mCityIndex);
+        updateCityinfo(mCityIndex);
         return root;
     }
 
@@ -118,5 +135,10 @@ public class CityPagerFragment extends Fragment {
 
         menuPrev.setEnabled(mPager.getCurrentItem()>0);
         menuNext.setEnabled(mPager.getCurrentItem()<mCities.getCount()-1);
+    }
+
+    public void showCity(int position){
+
+        mPager.setCurrentItem(position);
     }
 }

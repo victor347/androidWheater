@@ -1,5 +1,6 @@
 package com.vicsoft.wheater.wheater.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -30,9 +31,6 @@ public class CityListFragment extends Fragment {
 
     private OnCitySelectedListener mOnCitySelectedListener;
 
-    public void setOnCitySelectedListener(OnCitySelectedListener onCitySelectedListener) {
-        mOnCitySelectedListener = onCitySelectedListener;
-    }
 
     public CityListFragment() {
         // Required empty public constructor
@@ -76,7 +74,7 @@ public class CityListFragment extends Fragment {
 
         final Cities cities = new Cities();
 
-        ArrayAdapter<City> adapter = new ArrayAdapter<City>(getActivity(), R.layout.list_item_city, cities.getCities());
+        ArrayAdapter<City> adapter = new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, cities.getCities());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,6 +87,29 @@ public class CityListFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(getActivity() instanceof OnCitySelectedListener)
+        mOnCitySelectedListener = (OnCitySelectedListener) getActivity();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if(getActivity() instanceof OnCitySelectedListener)
+            mOnCitySelectedListener = (OnCitySelectedListener) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mOnCitySelectedListener = null;
     }
 
     public interface OnCitySelectedListener {
