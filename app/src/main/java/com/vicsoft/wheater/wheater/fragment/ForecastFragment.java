@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +28,7 @@ import android.widget.ViewSwitcher;
 
 import com.vicsoft.wheater.wheater.R;
 import com.vicsoft.wheater.wheater.activity.SettingsActivity;
+import com.vicsoft.wheater.wheater.adapter.ForecastRecyclerViewAdapter;
 import com.vicsoft.wheater.wheater.model.City;
 import com.vicsoft.wheater.wheater.model.Forecast;
 
@@ -36,6 +41,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 
 public class ForecastFragment extends Fragment {
 
@@ -45,14 +51,11 @@ public class ForecastFragment extends Fragment {
     private static final String ARG_CITY = "city";
 
     private TextView mCityName;
-    private TextView mMaxTemp;
-    private TextView mMinTemp;
-    private TextView mHumidity;
-    private TextView mDescription;
-    private ImageView mForecastImage;
+
     private boolean mShowCelsius;
     private City mCity;
     private ViewSwitcher mViewSwitcher;
+    private RecyclerView mLista;
 
     public static ForecastFragment newInstace(City city) {
 
@@ -84,27 +87,31 @@ public class ForecastFragment extends Fragment {
 
         Log.v(TAG, "Pasando por onCreate");
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mShowCelsius = pref.getBoolean(PREFERENCE_SHOW_CELSIUS, true);
+
 
 
         mCityName = (TextView) root.findViewById(R.id.city);
-        mMaxTemp = (TextView) root.findViewById(R.id.tempMax);
-        mMinTemp = (TextView) root.findViewById(R.id.tempMin);
-        mHumidity = (TextView) root.findViewById(R.id.humedity);
-        mDescription = (TextView) root.findViewById(R.id.description);
-        mForecastImage = (ImageView) root.findViewById(R.id.imageForecast);
+
         mViewSwitcher = (ViewSwitcher) root.findViewById(R.id.view_switcher);
         mViewSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in);
         mViewSwitcher.setOutAnimation(getActivity(), android.R.anim.fade_out);
+        mLista = (RecyclerView) root.findViewById(R.id.list);
+
+        mLista.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //mLista.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        mLista.setItemAnimator(new DefaultItemAnimator());
+
+        //  mLista.setAdapter(new ForecastRecyclerViewAdapter(new LinkedList<Forecast>(), getActivity()));
+
         downloadForecast();
 
         return root;
     }
 
-    private void downloadForecast(){
+    private void downloadForecast() {
 
-        AsyncTask<City, Integer, Forecast> wheaterDownloader = new AsyncTask<City, Integer, Forecast>() {
+        AsyncTask<City, Integer, LinkedList<Forecast>> wheaterDownloader = new AsyncTask<City, Integer, LinkedList<Forecast>>() {
 
             @Override
             protected void onPreExecute() {
@@ -115,19 +122,20 @@ public class ForecastFragment extends Fragment {
 
             @Override
             protected void onProgressUpdate(Integer... values) {
+
                 super.onProgressUpdate(values);
+
             }
 
             @Override
-            protected void onPostExecute(Forecast forecast) {
+            protected void onPostExecute(LinkedList<Forecast> forecast) {
                 super.onPostExecute(forecast);
 
-                if(forecast != null) {
+                if (forecast != null) {
                     mCity.setForecast(forecast);
                     setForecast(forecast);
-                    mViewSwitcher.setDisplayedChild(1);
-                }
-                else{
+
+                } else {
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle(R.string.error);
@@ -146,7 +154,7 @@ public class ForecastFragment extends Fragment {
             }
 
             @Override
-            protected Forecast doInBackground(City... cities) {
+            protected LinkedList<Forecast> doInBackground(City... cities) {
 
                 URL url = null;
                 InputStream input = null;
@@ -163,55 +171,63 @@ public class ForecastFragment extends Fragment {
                     int downloadBytes;
                     input = con.getInputStream();
                     StringBuilder sb = new StringBuilder();
-                    while((downloadBytes = input.read(data)) != -1){
+                    while ((downloadBytes = input.read(data)) != -1) {
                         sb.append(new String(data, 0, downloadBytes));
-                    }
 
+                        publishProgress((int) (currentBytes * 100) / responseLenght);
+                    }
+                    LinkedList<Forecast> forecastList = new LinkedList<>();
                     JSONObject jsonRoot = new JSONObject(sb.toString());
                     JSONArray days = jsonRoot.getJSONArray("list");
-                    JSONObject today = days.getJSONObject(0);
-                    float max = (float) today.getJSONObject("temp").getDouble("max");
-                    float min = (float) today.getJSONObject("temp").getDouble("min");
-                    float humidity = (float) today.getDouble("humidity");
-                    String description = today.getJSONArray("weather").getJSONObject(0).getString("description");
-                    String icon = today.getJSONArray("weather").getJSONObject(0).getString("icon");
+                    for (int i = 0; i < days.length(); i++) {
 
-                    int iconInt = Integer.parseInt(icon.substring(0, icon.length()-1));
-                    int iconResource;
-                    switch (iconInt){
-                        case 1:
-                            iconResource = R.drawable.ico_01;
-                            break;
-                        case 2:
-                            iconResource = R.drawable.ico_02;
-                            break;
-                        case 3:
-                            iconResource = R.drawable.ico_03;
-                            break;
-                        case 4:
-                            iconResource = R.drawable.ico_04;
-                            break;
-                        case 9:
-                            iconResource = R.drawable.ico_09;
-                            break;
-                        case 10:
-                            iconResource = R.drawable.ico_10;
-                            break;
-                        case 11:
-                            iconResource = R.drawable.ico_11;
-                            break;
-                        case 13:
-                            iconResource = R.drawable.ico_13;
-                            break;
-                        case 50:
-                            iconResource = R.drawable.ico_50;
-                            break;
-                        default:
-                            iconResource = R.drawable.ico_01;
-                            break;
+                        JSONObject today = days.getJSONObject(i);
+                        float max = (float) today.getJSONObject("temp").getDouble("max");
+                        float min = (float) today.getJSONObject("temp").getDouble("min");
+                        float humidity = (float) today.getDouble("humidity");
+                        String description = today.getJSONArray("weather").getJSONObject(0).getString("description");
+                        String icon = today.getJSONArray("weather").getJSONObject(0).getString("icon");
+
+                        int iconInt = Integer.parseInt(icon.substring(0, icon.length() - 1));
+                        int iconResource;
+                        switch (iconInt) {
+                            case 1:
+                                iconResource = R.drawable.ico_01;
+                                break;
+                            case 2:
+                                iconResource = R.drawable.ico_02;
+                                break;
+                            case 3:
+                                iconResource = R.drawable.ico_03;
+                                break;
+                            case 4:
+                                iconResource = R.drawable.ico_04;
+                                break;
+                            case 9:
+                                iconResource = R.drawable.ico_09;
+                                break;
+                            case 10:
+                                iconResource = R.drawable.ico_10;
+                                break;
+                            case 11:
+                                iconResource = R.drawable.ico_11;
+                                break;
+                            case 13:
+                                iconResource = R.drawable.ico_13;
+                                break;
+                            case 50:
+                                iconResource = R.drawable.ico_50;
+                                break;
+                            default:
+                                iconResource = R.drawable.ico_01;
+                                break;
+
+
+                        }
+                        forecastList.add(new Forecast(max, min, humidity, description, iconResource));
                     }
 
-                    return new Forecast(max, min, humidity, description, iconResource);
+                    return forecastList;
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -219,8 +235,7 @@ public class ForecastFragment extends Fragment {
                     e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -233,34 +248,19 @@ public class ForecastFragment extends Fragment {
 
     }
 
-    private void setForecast(Forecast forecast) {
+    private void setForecast(LinkedList<Forecast> forecast) {
 
-        float maxTemp = forecast.getMaxTemp();
-        float minTemp = forecast.getMinTemp();
-        String units = "°C";
+        if (forecast == null) {
+            downloadForecast();
+        } else {
+            mViewSwitcher.setDisplayedChild(1);
 
-        if (!mShowCelsius) {
-
-            maxTemp = toFahrenheit(maxTemp);
-            minTemp = toFahrenheit(minTemp);
-            units = "°F";
+            mLista.setAdapter(new ForecastRecyclerViewAdapter(forecast, getActivity()));
         }
 
-        mCityName.setText(mCity.getName());
-        mMaxTemp.setText(String.format(getString(R.string.tempMaxFormat), maxTemp, units));
-        mMinTemp.setText(String.format(getString(R.string.tempMinFormat), minTemp, units));
-        mHumidity.setText(String.format(getString(R.string.humidityFormat), forecast.getHumidity()));
-        mDescription.setText(String.valueOf(forecast.getDescription()));
-        mForecastImage.setImageResource(forecast.getIcon());
-
-        mCity.setForecast(forecast);
-        ;
     }
 
-    private float toFahrenheit(float temp) {
 
-        return (temp * 1.8f) + 32;
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

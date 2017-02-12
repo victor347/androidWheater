@@ -1,6 +1,7 @@
 package com.vicsoft.wheater.wheater.model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  * Created by victo on 9/02/2017.//
@@ -9,9 +10,9 @@ import java.io.Serializable;
 public class City implements Serializable{
 
     private String mName;
-    private Forecast mForecast;
+    private LinkedList<Forecast> mForecast;
 
-    public City(String name, Forecast forecast) {
+    public City(String name, LinkedList<Forecast> forecast) {
         mName = name;
         mForecast = forecast;
     }
@@ -28,11 +29,11 @@ public class City implements Serializable{
         mName = name;
     }
 
-    public Forecast getForecast() {
+    public LinkedList<Forecast> getForecast() {
         return mForecast;
     }
 
-    public void setForecast(Forecast forecast) {
+    public void setForecast(LinkedList<Forecast> forecast) {
         mForecast = forecast;
     }
 
